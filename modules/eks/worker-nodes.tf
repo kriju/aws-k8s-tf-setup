@@ -43,6 +43,14 @@ resource "aws_launch_configuration" "tf_eks" {
   }
 }
 
+resource "aws_lb_target_group" "tf_eks" {
+  name = "terraform-eks-nodes"
+  port = 31742
+  protocol = "HTTP"
+  vpc_id = "${var.vpc_id}"
+  target_type = "instance"
+}
+
 resource "aws_autoscaling_group" "tf_eks" {
   desired_capacity     = "2"
   launch_configuration = "${aws_launch_configuration.tf_eks.id}"
@@ -50,6 +58,7 @@ resource "aws_autoscaling_group" "tf_eks" {
   min_size             = 1
   name                 = "terraform-tf-eks"
   vpc_zone_identifier  = ["${var.app_subnet_ids}"]
+  target_group_arns    = ["${aws_lb_target_group.tf_eks.arn}"]
 
   tags = [
     {

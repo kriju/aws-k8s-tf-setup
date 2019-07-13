@@ -6,7 +6,6 @@ resource "aws_internet_gateway" "example" {
   }
 }
 
-
 resource "aws_eip" "nat_gateway" {
   count = "${var.subnet_count}"
   vpc      = true

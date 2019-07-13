@@ -25,3 +25,13 @@ variable "keypair-name" {
   type = "string"
   description = "Name of the keypair declared in AWS IAM, used to connect into your instances via SSH."
 }
+
+variable "hosted_zone_id" {
+  type = "string"
+  description = "ID of the hosted Zone created in Route53 before Terraform deployment."
+}
+
+variable "hosted_zone_url" {
+  type = "string"
+  description = "URL of the hosted Zone created in Route53 before Terraform deployment."
+}

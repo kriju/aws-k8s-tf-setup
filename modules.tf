@@ -17,3 +17,16 @@ module "eks" {
   vpc_id                  = "${module.network.vpc_id}"
   app_subnet_ids          = "${module.network.app_subnet_ids[0]}"
 }
+
+module "alb" {
+  source = "./modules/alb"
+
+  // pass variables from .tfvars
+  hosted_zone_id           = "${var.hosted_zone_id}"
+  hosted_zone_url          = "${var.hosted_zone_url}"
+  // inputs from modules
+  vpc_id                  = "${module.network.vpc_id}"
+  gateway_subnet_ids      = "${module.network.gateway_subnet_ids}"
+  node_sg_id              = "${module.eks.node_sg_id}"
+  lb_target_group_arn     = "${module.eks.target_group_arn}"
+}
